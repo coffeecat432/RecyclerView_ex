@@ -14,7 +14,19 @@ class RVAdapter (val items : MutableList<String>) : RecyclerView.Adapter<RVAdapt
         return ViewHolder(view)
     }
 
+    interface ItemClick {
+        fun onClick(view : View, position: Int)
+    }
+    var itemClick : ItemClick? = null
+
+
     override fun onBindViewHolder(holder: RVAdapter.ViewHolder, position: Int) {
+
+        if(itemClick != null){
+            holder.itemView.setOnClickListener { v->
+                itemClick?.onClick(v, position)
+            }
+        }
         // 뷰 바인딩
         holder.bindItems(items[position])
     }
@@ -34,4 +46,6 @@ class RVAdapter (val items : MutableList<String>) : RecyclerView.Adapter<RVAdapt
         }
         
     }
+
+
 }
